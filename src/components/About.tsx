@@ -58,15 +58,21 @@ const About = () => {
             </p>
           </div>
 
-          {/* Metrics Row */}
+          {/* Metrics Row with stagger */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 max-w-4xl mx-auto">
             {metrics.map((metric, index) => (
               <div
                 key={index}
-                className="p-4 rounded-lg bg-card border border-border hover-lift text-center"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className={`p-4 rounded-lg bg-card border border-border hover-lift text-center transition-all duration-500 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+                style={{
+                  transitionDelay: isVisible ? `${(index + 3) * 100}ms` : "0ms",
+                }}
               >
-                <div className="text-3xl font-bold text-primary mb-1">{metric.value}</div>
+                <div className="text-3xl font-bold text-primary mb-1 transition-transform duration-300 hover:scale-110">
+                  {metric.value}
+                </div>
                 <div className="text-sm text-muted-foreground">{metric.label}</div>
               </div>
             ))}

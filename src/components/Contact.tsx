@@ -104,33 +104,35 @@ const Contact = () => {
 
           {/* Contact Info */}
           <div className="space-y-8 animate-fade-in" style={{ animationDelay: "200ms" }}>
-            <div className="p-8 rounded-xl bg-card border border-border">
+            <div className="p-8 rounded-xl bg-card border border-border hover-lift">
               <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
 
               <div className="space-y-4">
-                <div className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                <a
+                  href="mailto:venkatraog0339@gmail.com"
+                  className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-all duration-300 group"
+                >
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:scale-110">
                     <Mail size={20} />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <a href="mailto:venkatraog0339@gmail.com" className="font-medium">
-                      venkatraog0339@gmail.com
-                    </a>
+                    <p className="font-medium">venkatraog0339@gmail.com</p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                <a
+                  href="tel:+14302950339"
+                  className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-all duration-300 group"
+                >
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:scale-110">
                     <Phone size={20} />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Phone</p>
-                    <a href="tel:+14302950339" className="font-medium">
-                      +1 (430) 295-0339
-                    </a>
+                    <p className="font-medium">+1 (430) 295-0339</p>
                   </div>
-                </div>
+                </a>
 
                 <div className="flex items-center gap-4 text-muted-foreground">
                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
@@ -145,14 +147,14 @@ const Contact = () => {
             </div>
 
             {/* Social Links */}
-            <div className="p-8 rounded-xl bg-card border border-border">
+            <div className="p-8 rounded-xl bg-card border border-border hover-lift">
               <h3 className="text-xl font-bold mb-4">Connect With Me</h3>
               <div className="flex gap-4">
                 <a
                   href="https://github.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 py-3 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2 hover-lift"
+                  className="flex-1 py-3 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center gap-2 hover:-translate-y-1 hover:shadow-lg"
                 >
                   <Github size={20} />
                   <span className="font-medium">GitHub</span>
@@ -161,7 +163,7 @@ const Contact = () => {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 py-3 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2 hover-lift"
+                  className="flex-1 py-3 rounded-lg bg-muted hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center gap-2 hover:-translate-y-1 hover:shadow-lg"
                 >
                   <Linkedin size={20} />
                   <span className="font-medium">LinkedIn</span>

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ExternalLink, Github } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { ExternalLink, Github, X, ZoomIn } from "lucide-react";
 
 const Projects = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -23,6 +24,18 @@ const Projects = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  // Close lightbox on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && lightboxImage) {
+        setLightboxImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxImage]);
 
   const projects = [
     {
@@ -94,14 +107,23 @@ const Projects = () => {
               style={{ animationDelay: `${index * 150}ms` }}
             >
               {/* Project Image */}
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-48 overflow-hidden group/image">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
+                
+                {/* Zoom Icon on Hover */}
+                <button
+                  onClick={() => setLightboxImage(project.image)}
+                  className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover/image:opacity-100 transition-all hover:bg-black/70 hover:scale-110"
+                  aria-label="View full image"
+                >
+                  <ZoomIn size={20} />
+                </button>
               </div>
 
               {/* Content */}
@@ -185,9 +207,34 @@ const Projects = () => {
                 </Dialog>
               </div>
             </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+
+        {/* Lightbox */}
+        {lightboxImage && (
+          <div
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+            onClick={() => setLightboxImage(null)}
+          >
+            <button
+              onClick={() => setLightboxImage(null)}
+              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-all"
+              aria-label="Close lightbox"
+            >
+              <X size={24} />
+            </button>
+            
+            <div className="max-w-6xl max-h-[90vh] animate-scale-in">
+              <img
+                src={lightboxImage}
+                alt="Project preview"
+                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          </div>
+        )}
     </section>
   );
 };

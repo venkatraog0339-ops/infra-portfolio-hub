@@ -71,19 +71,19 @@ const Certifications = () => {
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-0 group-hover:opacity-20 transition duration-500" />
 
               <div className="relative flex flex-col items-center text-center">
-                {/* Logo */}
-                <div className="w-24 h-24 mb-6 rounded-lg bg-background p-4 flex items-center justify-center border border-border shadow-md">
+                {/* Logo with hover animation */}
+                <div className="w-24 h-24 mb-6 rounded-lg bg-background p-4 flex items-center justify-center border border-border shadow-md transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
                   <img
                     src={cert.image}
                     alt={cert.name}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain transition-transform duration-300 group-hover:rotate-6"
                     loading="lazy"
                   />
                 </div>
 
                 {/* Content */}
                 <div className="space-y-3">
-                  <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                     {cert.name}
                   </h3>
                   <p className="text-primary font-semibold">{cert.level}</p>
@@ -118,7 +118,10 @@ const Certifications = () => {
             ].map((skill, idx) => (
               <span
                 key={idx}
-                className="px-4 py-2 rounded-full bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-all hover-lift cursor-default"
+                className="px-4 py-2 rounded-full bg-card border border-border text-foreground hover:border-primary hover:text-primary hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-default"
+                style={{
+                  animationDelay: `${idx * 50}ms`,
+                }}
               >
                 {skill}
               </span>

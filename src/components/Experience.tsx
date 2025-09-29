@@ -63,6 +63,11 @@ const Experience = () => {
     },
   ];
 
+  // Stagger animation for items
+  const getAnimationDelay = (index: number) => {
+    return isVisible ? `${index * 200}ms` : "0ms";
+  };
+
   return (
     <section id="experience" ref={sectionRef} className="section-padding">
       <div className="container-custom">
@@ -80,11 +85,21 @@ const Experience = () => {
             {experiences.map((exp, index) => (
               <div
                 key={index}
-                className={`relative pl-8 md:pl-20 ${isVisible ? "animate-fade-in" : "opacity-0"}`}
-                style={{ animationDelay: `${index * 200}ms` }}
+                className={`relative pl-8 md:pl-20 transition-all duration-500 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+                style={{ 
+                  transitionDelay: getAnimationDelay(index),
+                }}
               >
                 {/* Timeline Node */}
-                <div className="absolute left-0 md:left-6 top-2 w-5 h-5 rounded-full bg-primary border-4 border-background shadow-glow" />
+                <div
+                  className="absolute left-0 md:left-6 top-2 w-5 h-5 rounded-full bg-primary border-4 border-background shadow-glow transition-all duration-500"
+                  style={{ 
+                    transitionDelay: getAnimationDelay(index),
+                    transform: isVisible ? "scale(1)" : "scale(0)",
+                  }}
+                />
 
                 {/* Content Card */}
                 <div className="p-6 rounded-xl bg-card border border-border hover-lift">

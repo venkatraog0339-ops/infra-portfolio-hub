@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, ChevronDown } from "lucide-react";
 
 const Hero = () => {
   const [displayText, setDisplayText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const photoRef = useRef<HTMLDivElement>(null);
   const fullText = "Hi, I'm Venkata Rao Gonugunta — DevOps & Cloud Engineer";
 
   useEffect(() => {
@@ -17,6 +19,37 @@ const Hero = () => {
       setIsTypingComplete(true);
     }
   }, [displayText, fullText]);
+
+  // Photo tilt effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (photoRef.current && window.innerWidth > 1024) {
+        const rect = photoRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        const tiltX = (y / rect.height) * 10;
+        const tiltY = -(x / rect.width) * 10;
+        
+        setTilt({ x: tiltX, y: tiltY });
+      }
+    };
+
+    const handleMouseLeave = () => {
+      setTilt({ x: 0, y: 0 });
+    };
+
+    const photoElement = photoRef.current;
+    if (photoElement) {
+      photoElement.addEventListener("mousemove", handleMouseMove);
+      photoElement.addEventListener("mouseleave", handleMouseLeave);
+      
+      return () => {
+        photoElement.removeEventListener("mousemove", handleMouseMove);
+        photoElement.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    }
+  }, []);
 
   const handleResumeView = () => {
     window.open("/assets/Venkata_Rao_Resume.pdf", "_blank", "noopener,noreferrer");
@@ -110,12 +143,18 @@ const Hero = () => {
 
           {/* Right: Profile Photo */}
           <div className="flex justify-center lg:justify-end animate-scale-in order-1 lg:order-2">
-            <div className="relative group">
+            <div className="relative group" ref={photoRef}>
               {/* Glow Effect */}
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-full blur opacity-20 group-hover:opacity-40 transition duration-500 animate-glow" />
 
-              {/* Photo Container */}
-              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 hover:scale-105 shadow-lg">
+              {/* Photo Container with Tilt */}
+              <div
+                className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 shadow-lg"
+                style={{
+                  transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${tilt.x || tilt.y ? 1.05 : 1})`,
+                  transition: tilt.x || tilt.y ? "transform 0.1s ease-out" : "transform 0.5s ease-out",
+                }}
+              >
                 <img
                   src="/assets/profile.jpg"
                   alt="Venkata Rao Gonugunta - DevOps Engineer"
